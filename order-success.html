@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Realizado | JoeSushiBar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .success-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(155, 120, 48, 0.4);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .success-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: #fff;
+        }
+
+        .success-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            color: #fff;
+            max-width: 500px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .contact-card {
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        /* Order Status Timeline */
+        .order-timeline {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 40px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .timeline-step.active {
+            opacity: 1;
+        }
+
+        .timeline-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-indicator {
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-step.active .step-indicator {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(155, 120, 48, 0.5);
+        }
+
+        .timeline-step.completed .step-indicator {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 29px;
+            /* Align with center of indicator (20px + padding) roughly */
+            top: 25px;
+            /* pending */
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        /* Custom line positioning attempt */
+        .step-line {
+            position: absolute;
+            left: 9px;
+            top: 22px;
+            width: 2px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-step.active+.timeline-step .step-line {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .step-text {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        .step-text small {
+            display: block;
+            font-size: 0.8rem;
+            color: #aaa;
+            font-weight: 400;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo-custom">JoeSushiBar</a>
+        </div>
+    </header>
+
+    <main class="success-page">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+            </svg>
+        </div>
+
+        <h1 class="success-title">Pedido Realizado!</h1>
+
+        <p class="success-message">
+            Seu pedido foi recebido com sucesso pela nossa cozinha.<br>
+            Acompanhe o status abaixo:
+        </p>
+
+        <div class="contact-card" style="text-align: left; padding-left: 40px; border: 1px solid var(--primary-color);">
+            <div class="timeline-step active">
+                <div class="step-indicator"></div>
+                <div class="step-text">
+                    Pedido Aceito
+                    <small>Seu pedido chegou na cozinha.</small>
+                </div>
+                <div class="step-line"></div>
+            </div>
+            <div class="timeline-step active">
+                <div class="step-indicator"></div>
+                <div class="step-text">
+                    Fazendo Pedido
+                    <small>Nossos sushiman estão preparando.</small>
+                </div>
+                <div class="step-line"></div>
+            </div>
+            <div class="timeline-step">
+                <div class="step-indicator"></div>
+                <div class="step-text">
+                    Entregando
+                    <small>Saiu para entrega.</small>
+                </div>
+                <div class="step-line"></div>
+            </div>
+            <div class="timeline-step">
+                <div class="step-indicator"></div>
+                <div class="step-text">
+                    Pedido Finalizado
+                    <small>Entregue e concluído.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h3 style="color: var(--primary-color); margin-bottom: 20px;">Informações de Contato</h3>
+            <p style="color: #ddd; margin-bottom: 15px;">Aguarde nosso contato ou chame agora:</p>
+
+            <div class="contact-item">
+                <svg style="width:20px;height:20px;fill:var(--text-secondary)" viewBox="0 0 24 24">
+                    <path
+                        d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.32 16.68 19.92 12.28 19.92C10.9 19.92 9.54 19.57 8.35 18.91L8.07 18.75L4.85 19.59L5.71 16.46L5.53 16.17C4.78 14.97 4.38 13.58 4.38 12.12C4.38 7.72 8.01 4.09 12.42 4.09H12.05V3.67Z" />
+                </svg>
+                <span>(67) 99999-9999</span>
+            </div>
+
+            <a href="index.html" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">Voltar ao
+                Início</a>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.9rem;">
+        &copy; 2025 JoeSushiBar. Todos os direitos reservados.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

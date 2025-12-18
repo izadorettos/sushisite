@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoeSushiBar | Arte & Sabor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Removed duplicate Maps script from head; the API will be loaded once at the end with the required libraries and callback -->
+
+</head>
+    
+<body>
+
+    <header>
+        <div class="container navbar">
+            <a href="" class="logo-custom">JoeSushiBar</a>
+            <nav class="nav-links">
+                <a href="#produtos" class="nav-item active">
+                    <!-- Products Icon -->
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M5.5,9A1.5,1.5 0 0,0 7,7.5A1.5,1.5 0 0,0 5.5,6A1.5,1.5 0 0,0 4,7.5A1.5,1.5 0 0,0 5.5,9M17.41,11.58C17.77,11.94 18,12.44 18,13C18,13.55 17.78,14.05 17.41,14.41L12.41,19.41C12.05,19.77 11.55,20 11,20C10.45,20 9.95,19.78 9.58,19.41L2.59,12.42C2.22,12.05 2,11.55 2,11V6C2,4.89 2.89,4 4,4H9C9.55,4 10.05,4.22 10.41,4.58L17.41,11.58M13.54,5.71L14.54,4.71L21.41,11.58C21.78,11.94 22,12.45 22,13C22,13.55 21.78,14.05 21.42,14.41L16.04,19.79L15.04,18.79L20.75,13L13.54,5.71Z">
+                        </path>
+                    </svg>
+                    <span>Produtos</span>
+                </a>
+                <a href="#fidelidade" class="nav-item">
+                    <!-- Fidelity Icon -->
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M20.39,19.37L16.38,18L15,22L11.92,16L9,22L7.62,18L3.61,19.37L6.53,13.37C5.57,12.17 5,10.65 5,9A7,7 0 0,1 12,2A7,7 0 0,1 19,9C19,10.65 18.43,12.17 17.47,13.37L20.39,19.37M7,9L9.69,10.34L9.5,13.34L12,11.68L14.5,13.33L14.33,10.34L17,9L14.32,7.65L14.5,4.67L12,6.31L9.5,4.65L9.67,7.66L7,9Z">
+                        </path>
+                    </svg>
+                    <span>Fidelidade</span>
+                </a>
+                <a href="info.html" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M11,17H13V11H11V17Z">
+                        </path>
+                    </svg>
+                    <span>Infos</span>
+                </a>
+                <a href="#" class="nav-item" id="cart-btn">
+                    <!-- Cart Icon -->
+                    <div style="position: relative;">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z">
+                            </path>
+                        </svg>
+                        <span id="cart-count"
+                            style="position: absolute; top: -8px; right: -8px; background: var(--primary-color); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; visibility: hidden;">0</span>
+                    </div>
+                    <span>Carrinho</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar/Modal -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Seu Pedido</h3>
+            <button id="close-cart" class="close-btn">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items will be injected here -->
+            <div class="empty-cart-msg">Seu carrinho está vazio 🍣</div>
+        </div>
+        <div class="cart-options" style="padding: 0 24px 24px;">
+            <div class="delivery-toggle-container">
+                <label class="delivery-option">
+                    <input type="radio" name="deliveryType" value="pickup" checked style="display:none;"
+                        onchange="updateDeliveryUI()">
+                    <span class="toggle-btn">Retirada</span>
+                </label>
+                <label class="delivery-option">
+                    <input type="radio" name="deliveryType" value="delivery" style="display:none;"
+                        onchange="updateDeliveryUI()">
+                    <span class="toggle-btn">Entrega</span>
+                </label>
+            </div>
+
+            <div id="delivery-info" class="delivery-info-container">
+                <div class="input-group-vertical">
+                    <label class="input-label-sm">Endereço de Entrega</label>
+                    <div class="input-row">
+                        <input type="text" id="address-input" placeholder="Rua, Número, Bairro"
+                            class="address-input-field" autocomplete="off">
+                        <button id="calc-delivery-btn" class="btn btn-primary calc-button"
+                            onclick="calculateDeliveryFromAddress()">Calcular</button>
+                    </div>
+                    <input type="hidden" id="distance-input" value="0">
+                </div>
+                <div id="calc-result" class="calc-result-box">
+                    <div class="calc-row">
+                        <span>Distância Calculada:</span>
+                        <span id="calc-dist">-- km</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>Taxa de Entrega:</span>
+                        <span id="delivery-fee">R$ 0,00</span>
+                    </div>
+                    <div class="calc-row" style="color: var(--secondary-color);">
+                        <span>Tempo Estimado:</span>
+                        <span id="estimated-time">-- min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal">R$ 0,00</span>
+            </div>
+            <div class="cart-total text-primary" style="font-size: 1.4rem;">
+                <span>Total Final:</span>
+                <span id="cart-total-price">R$ 0,00</span>
+            </div>
+            <div id="min-order-msg"
+                style="color: #ff6b6b; font-size: 0.85rem; text-align: center; margin-bottom: 10px; display: none;">
+                Pedido mínimo: R$ 25,00
+            </div>
+            <button id="checkout-btn" class="btn btn-primary" style="width: 100%;">Finalizar Pedido</button>
+        </div>
+    </div>
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Experiência<br><span>Em Cada Peça</span></h1>
+                <p>O melhor da culinária japonesa, preparado com ingredientes frescos e paixão pela tradição.</p>
+
+                <!-- Hero Carousel -->
+                <div class="hero-carousel">
+                    <div class="carousel-track" id="hero-carousel-track">
+                        <div class="carousel-slide">
+                            <img src="imagens/IMG_100p.JPG" alt="Sushi Combo 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/IMG_85p.JPG" alt="Sushi Combo 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/IMG_.JPG" alt="Sushi Combo 3">
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#produtos" class="btn btn-primary">Fazer Pedido</a>
+
+                <div class="hero-info-icons">
+                    <div class="hero-icon-item" title="Tempo varia conforme distância">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M19.15,8A2,2 0 0,0 17.15,6H5.15A2,2 0 0,0 5.15,10V18H3.15V20H5.15V22H7.15V20H15.15V22H17.15V20H19.15V18H17.15V14H19.15V8M7.15,18H5.15V11H7.15V18M17.15,18H9.15V11H17.15V18M19.15,12H17.15V8H19.15V12Z" />
+                        </svg> <!-- Delivery Truck/Moto alternative for clarity -->
+                        <span>R$ 3,00/km</span>
+                    </div>
+                    <div class="hero-icon-item" title="Retirada no Local">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6,23V21H18V23H6M6,20V18H18V20H6M6,17V15H18V17H6M6,14V1H18V14L12,17L6,14Z" />
+                        </svg>
+                        <span>Retirada: 40min-1h20</span>
+                    </div>
+                    <div class="hero-icon-item" title="Pedido Mínimo R$ 25,00">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" />
+                        </svg>
+                        <span>Min. R$ 25,00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="produtos" class="products">
+            <div class="container">
+                <h2 class="section-title">Cardápio</h2>
+
+                <div class="menu-accordion">
+                    <!-- 0. Ofertas -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span class="text-primary">Ofertas</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <!-- Temporarily open or just standard behavior -->
+                            <div class="product-grid">
+                                <!-- Combinado 85 peças -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_85p.JPG" alt="Combinado 85 peças">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado 85 peças</h3>
+                                        <p>10 urumakis Filadélfia, 10 urumakis Filadélfia especial,10 urumakis grelhado,
+                                            10 urumakis skyn, 10 urumakis
+                                            alcapone, 2 especial salmaon em cubo, 2 especial geleia de pimenta, 2
+                                            urumakis hossomake e 10 hots Filadélfia.</p>
+                                    </div>
+                                    <p class="old-price">De R$ 110,00</p>
+                                    <div class="product-footer">
+                                        <span class="price">Por R$ 89,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1. Mais Pedidos -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Mais Pedidos</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Combinado 20 peças -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_esp40p.JPG" alt="Combinado 20 peças">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado 20 peças</h3>
+                                        <p>3 urumakis Filadélfia, 3 urumakis grelhado, 3 urumakis skyn, 3 urumakis
+                                            alcapone, 2 especial salmaon em cubo, 2 especial geleia de pimenta, 2
+                                            urumakis hossomake e 2 hots Filadélfia.</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 21,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Combinado Joe especial 40 peças -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_.JPG"
+                                            alt="Combinado Joe especial 40 peças">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado Joe especial 40 peças</h3>
+                                        <p>6 hossomaki de salmão, 2 Urumakis com geleia de mortango, 2 Urumakis com
+                                            geleia de pimenta, 2 Urumakis com pimenta biquinho, 5 Filadélfia tradicional
+                                            e 2 Temakis.</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 109,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+
+
+                                <!-- Combinado 100 peças -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_100p.JPG" alt="Combinado 100 peças">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado 100 peças</h3>
+                                        <p>15 urumakis Filadélfia, 15 urumakis Filadélfia especial,15 urumakis grelhado,
+                                            15 urumakis skyn, 15 urumakis
+                                            alcapone, 2 especial salmaon em cubo, 2 especial geleia de pimenta, 2
+                                            urumakis hossomake e 15 hots Filadélfia.</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 119,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Combinados -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Combinados</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Combinado Joe Hot 20 peças -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_hot20pJPG.JPG"
+                                            alt="Combinado Joe Hot 20 peças">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado Joe Hot 20 peças</h3>
+                                        <p>5 Hot joe, 5 hot bacon com mussarela, 05 hot dori, 5 hot philadélfia.
+                                            Acompanha 1 par de hashi 1 sache de shoyu 1 molho tare 30ml</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 49,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Barquinha de Salmão -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_barqsalmao.JPG" alt="Barquinha de Salmão">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Barquinha de Salmão</h3>
+                                        <p>10 unidades.</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 49,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Combinado 2 -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_comb2.JPG" alt="Combinado 2">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado 2</h3>
+                                        <p>10 fatias de salmão, 2 temakis de salmao batido com arroz, 4 filadélfias
+                                            especais, 4 skin, 2 Joes, 4 urumakis grelhados</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 129,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Combinado Joe 35 peças -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_joe35p.JPG" alt="Combinado Joe 35 peças">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Combinado Joe 35 peças</h3>
+                                        <p>10 fatias de salmão 5 philadelfia, 5 joe, 5 sophia 5 hossomaki de salmão, 2
+                                            mini temaki.</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 130,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Hots -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Hots</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Hot Joe -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_hotJ.JPG" alt="Hot Joe">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Hot Joe</h3>
+                                        <p>10 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 34,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Hot Philadelphia -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_hotP.JPG" alt="Hot Philadelphia">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Hot Philadelphia</h3>
+                                        <p>10 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 32,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Temakis -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Temakis</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Temaki Salmão Hot -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_frito.JPG" alt="Temaki Salmão Hot">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Temaki Salmão Hot</h3>
+                                        <p>com arroz e cream cheese</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 37,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Temaki Salmão Batido -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_batido.JPG"
+                                            alt="Temaki Salmão Batido com Cream Cheese">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Temaki Salmão Batido com Cream Cheese</h3>
+                                        <p>com arroz e cream cheese</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 31,99</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Unidade -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Unidade</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Alcapone -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_alcapone.JPG" alt="Alcapone">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Alcapone</h3>
+                                        <p>1 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 3,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Alho frito -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_alho.JPG"
+                                            alt="Alho frito com cream cheese">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Alho frito com cream cheese</h3>
+                                        <p>1 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 3,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Sashimi -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Sashimi</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Ceviche Tilápia -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_cevish.JPG" alt="Ceviche Tilápia">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Ceviche Tilápia</h3>
+                                        <p>250g</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 39,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+
+                                <!-- Sashimi Tilápia -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_sashimi.JPG" alt="Sashimi Tilápia">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Sashimi Tilápia</h3>
+                                        <p>10 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 29,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. A Lá Carte -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>A Lá Carte</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Duplicated Sashimi logic from user edit - keeping it assuming intentional or placeholder -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_sashimi.JPG" alt="Sashimi Tilápia">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Sashimi Tilápia</h3>
+                                        <p>10 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 3,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Combinados Doces -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Combinados Doces</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Banana com Beijinho -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_doce.JPG" alt="Banana com Beijinho">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Banana com Beijinho</h3>
+                                        <p>10 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 15,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9. Acompanhamentos -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Acompanhamentos</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Hashi -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_hashi.JPG" alt="Hashi">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Hashi</h3>
+                                        <p>1 UN</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 3,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10. Bebidas -->
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>Bebidas</span>
+                            <span class="icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="product-grid">
+                                <!-- Água -->
+                                <article class="product-card">
+                                    <div class="product-image">
+                                        <img loading="lazy" src="imagens/IMG_agua.JPG" alt="Água">
+                                    </div>
+                                    <div class="product-info">
+                                        <h3>Água</h3>
+                                        <p>s/gás</p>
+                                    </div>
+                                    <div class="product-footer">
+                                        <span class="price">R$ 5,00</span>
+                                        <button class="add-btn">
+                                            <svg style="width:20px;height:20px;fill:currentColor" viewBox="0 0 24 24">
+                                                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="fidelidade" class="loyalty-section">
+            <div class="container">
+                <div class="section-title clean">
+                    <span
+                        style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 2.2rem;">Fidelidade</span>
+                    <span
+                        style="font-family: 'Great Vibes', cursive; font-weight: normal; color: #f1b80f;">JoeSushiBar</span>
+                </div>
+
+                <div class="loyalty-hero">
+                    <div class="loyalty-icon-main">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5H13V17.5H11V16.5M11,7H13V15H11V7Z" />
+                        </svg>
+                    </div>
+                    <p class="loyalty-desc">Acumule pontos em cada pedido e troque por recompensas exclusivas!</p>
+                    <a href="#" class="btn btn-primary"
+                        style="background: var(--accent-gold); color: #000; font-weight:800;">Ver Meus Pontos</a>
+                </div>
+
+                <div class="loyalty-steps">
+                    <h3>Como Funciona</h3>
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M11,9H13V6H16V4H8V6H11M7,18A2,2 0 0,0 9,20H15A2,2 0 0,0 17,18V13H7M7,11H17V9H7M22,14H20V11H22M2,14H4V11H2M21,20H19V16H21M5,20H3V16H5" />
+                                </svg>
+                            </div>
+                            <h4>1. Faça seu Pedido</h4>
+                            <p>Peça seus sushis favoritos pelo site.</p>
+                        </div>
+                        <div class="step-arrow">➜</div>
+                        <div class="step-card">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12,2C15.31,2 18,4.66 18,7.95C18,12.24 13.19,16.29 12,22C10.81,16.29 6,12.24 6,7.95C6,4.66 8.69,2 12,2M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6Z" />
+                                </svg>
+                            </div>
+                            <h4>2. Pontue</h4>
+                            <p>Cada R$ 1,00 gasto vale 1 ponto.</p>
+                        </div>
+                        <div class="step-arrow">➜</div>
+                        <div class="step-card">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20,6H16V3.5A2.5,2.5 0 0,0 13.5,1H10.5A2.5,2.5 0 0,0 8,3.5V6H4A2,2 0 0,0 2,8V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V8A2,2 0 0,0 20,6M10,3.5A0.5,0.5 0 0,1 10.5,3H13.5A0.5,0.5 0 0,1 14,3.5V6H10V3.5M20,19H4V8H20V19Z" />
+                                </svg>
+                            </div>
+                            <h4>3. Troque</h4>
+                            <p>Resgate prêmios deliciosos!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loyalty-rewards">
+                    <h3>Catálogo de Prêmios</h3>
+                    <div class="rewards-grid">
+                        <div class="reward-card">
+                            <div class="reward-points">500 pts</div>
+                            <h4>Temaki Grátis</h4>
+                            <p>Qualquer sabor tradicional ou grelhado.</p>
+                            <div class="progress-bar">
+                                <div style="width: 40%"></div>
+                            </div>
+                            <span class="status-text">Quase lá!</span>
+                        </div>
+                        <div class="reward-card highlight">
+                            <div class="reward-badge">Popular</div>
+                            <div class="reward-points">1000 pts</div>
+                            <h4>Combinado 20 peças</h4>
+                            <p>Um mix perfeito para sua janta.</p>
+                            <div class="progress-bar">
+                                <div style="width: 20%"></div>
+                            </div>
+                            <button class="btn-claim" disabled>Bloqueado</button>
+                        </div>
+                        <div class="reward-card">
+                            <div class="reward-points">2000 pts</div>
+                            <h4>Voucher R$ 100</h4>
+                            <p>Crédito para gastar como quiser.</p>
+                            <div class="progress-bar">
+                                <div style="width: 10%"></div>
+                            </div>
+                            <button class="btn-claim" disabled>Bloqueado</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.9rem;">
+        &copy; 2025 JoeSushiBar. Todos os direitos reservados.
+    </footer>
+
+    <!-- Load local script first so window.initMap exists when API calls the callback -->
+    <script src="script.js"></script>
+    <!-- Google Maps API: load once with Places & Geometry libraries and init callback -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr249_zdJ8f529xc44LZmCgphnIuXRYn8&libraries=geometry,places&callback=initMap"></script>
+</body>
+
+</html>
