@@ -1,4 +1,4 @@
-# 🍣 Sushi Site - Landing Page Responsiva
+# 🍣 Sushi Site - Site Institucional Responsivo
 
 Uma landing page elegante e moderna para um restaurante de Sushi, desenvolvida com o objetivo de aplicar conceitos avançados de **Design Responsivo**, **Semântica HTML** e **UX (Experiência do Utilizador)**.
 
