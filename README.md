@@ -38,4 +38,5 @@ Para garantir a organização e escalabilidade do código, utilizei a seguinte e
 
 ## 📧 Contacto
 Desenvolvido por **Izadora** – sente-te à vontade para entrar em contacto!
-[GitHub](https://github.com/izadorettos) | [LinkedIn](https://www.linkedin.com/in/izadora-bitencourti-doreto-5331a539a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/izadora-bitencourti-doreto/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/izadorettos)
