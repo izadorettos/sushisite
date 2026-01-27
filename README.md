@@ -4,7 +4,7 @@ Uma landing page elegante e moderna para um restaurante de Sushi, desenvolvida c
 
 ## 🚀 Demonstração
 O projeto está disponível online para visualização:
-👉[Link de demonstração (https://izadorettos.github.io/sushisite/)]
+👉[Link de demonstração](https://izadorettos.github.io/sushisite/)
 
 ---
 
