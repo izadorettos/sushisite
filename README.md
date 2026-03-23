@@ -1,6 +1,6 @@
 # 🍣 Sushi Site - Site Institucional Responsivo
 
-Uma landing page elegante e moderna para um restaurante de Sushi, desenvolvida com o objetivo de aplicar conceitos avançados de **Design Responsivo**, **Semântica HTML** e **UX (Experiência do Utilizador)**.
+Um site institucional elegante e moderna para um restaurante de Sushi, desenvolvida com o objetivo de aplicar conceitos avançados de **Design Responsivo**, **Semântica HTML** e **UX (Experiência do Utilizador)**.
 
 ## 🚀 Demonstração
 O projeto está disponível online para visualização:
